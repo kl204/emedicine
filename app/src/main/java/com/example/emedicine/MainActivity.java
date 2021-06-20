@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //검색창에서 검색한 약 아이디 넣기
-                text.setText(none);
+                text.setText(none);         // 화면 초기화
                 medid = edit.getText().toString();
                 Toast.makeText(getApplicationContext(), "버튼 클릭 됨",Toast.LENGTH_SHORT).show();
                 mOnClick(v);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     // TODO Auto-generated method stub
-                                    text.setText(data); //TextView에 문자열  data 출력
+                                   // text.setText(data); //TextView에 문자열  data 출력
                                 }
                             });
                         }
@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                                     buffer.append("약 번호 : ");
                                     buffer.append(xpp.getText());
                                     buffer.append("\n");
+                                    text.setText(buffer);
                                 }
                             }
                         else if(tag.equals("itemImage")){ //알약 이미지
@@ -176,12 +177,14 @@ public class MainActivity extends AppCompatActivity {
                            xpp.next();
                             buffer.append(stripHtml(stripHtml(xpp.getText())));
                             buffer.append("\n");
+                            text.setText(buffer);
                         }
                         else if(tag.equals("entpName")){
                             buffer.append("제조사 : ");
                             xpp.next();
                             buffer.append(stripHtml(stripHtml(xpp.getText())));
                             buffer.append("\n");
+                            text.setText(buffer);
                         }
 
                         else if(tag.equals("efcyQesitm")){
@@ -189,13 +192,23 @@ public class MainActivity extends AppCompatActivity {
                             xpp.next();
                             buffer.append(stripHtml(xpp.getText()));
                             buffer.append("\n");
+                            text.setText(buffer);
                         }
                         else if(tag.equals("useMethodQesitm")){
                             buffer.append("약 복용법 : ");
                             xpp.next();
                             buffer.append(stripHtml(xpp.getText()));
                             buffer.append("\n");
+                            text.setText(buffer);
                         }
+                        else if(tag.equals("seQesitm")){
+                            buffer.append("약 부작용 : ");
+                            xpp.next();
+                            buffer.append(stripHtml(xpp.getText()));
+                            buffer.append("\n");
+                            text.setText(buffer);
+                        }
+
 
                         break;
 
