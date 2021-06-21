@@ -38,6 +38,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStreamReader;
 import java.util.List;
 
+//-------------------------------알약 조회 화면--------------------------------------
 
 public class MainActivity extends AppCompatActivity{
 
@@ -55,18 +56,60 @@ public class MainActivity extends AppCompatActivity{
     String data;
     String none =" ";
     String medid = "none";
+    String num = null;
     final String[] a = new String[1];
     final String[] b = new String[1];
     final String[] c = new String[1];
     final String[] d = new String[1];
     final String[] e_ = new String[1];
-    final String[] img = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+//-----------------------------------------------------------------------------
+        Intent intent = getIntent(); //데이터 수신
+
+        num = intent.getExtras().getString("code"); // 데이터 수신 받음
+
+
+        if(num == "0") {
+
+            Toast.makeText(this, "화면 전환!", Toast.LENGTH_SHORT).show();
+        }else{
+
+            medid = num;        // 화면 전환으로 넘어온 코드로 알약 조회
+
+            //Toast.makeText(this, medid, Toast.LENGTH_SHORT).show();
+
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    data = getXmlData();//아래 메소드를 호출하여 XML data를 파싱해서 String 객체로 얻어오기
+
+                    //UI Thread(Main Thread)를 제외한 어떤 Thread도 화면을 변경할 수 없기때문에
+                    //runOnUiThread()를 이용하여 UI Thread가 TextView 글씨 변경하도록 함
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
+                            // text.setText(data); //TextView에 문자열  data 출력
+                        }
+                    });
+                }
+            }).start();
+        }
+
+
+   //---------------------------------------------------------------------------------
+
+
+
+
 
         getSupportActionBar().setTitle("알약 검색하기");
 
@@ -285,7 +328,7 @@ public class MainActivity extends AppCompatActivity{
         } catch (Exception e) {
             // TODO Auto-generated catch blocke.printStackTrace();
         }
-        //medid = "none";
+        medid = "none";
         return buffer.toString();//StringBuffer 문자열 객체 반환
 
     }//getXmlData method....

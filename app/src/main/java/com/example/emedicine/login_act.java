@@ -14,6 +14,8 @@ import com.example.emedicine.databinding.ActivityMainBinding;
 
 import java.util.List;
 
+//-------------------------------로그인 화면--------------------------------------
+
 public class login_act extends AppCompatActivity  {
 
     private ActivityMainBinding binding;

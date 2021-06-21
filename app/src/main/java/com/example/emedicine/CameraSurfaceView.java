@@ -8,6 +8,8 @@ import android.view.SurfaceView;
 
 import java.io.IOException;
 
+//-------------------------------카메라 관련클래스(미완성)--------------------------------------
+
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
 
     SurfaceHolder holder;

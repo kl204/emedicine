@@ -25,6 +25,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//-------------------------------마이페이지 화면--0
+
+
 public class MainActivity2 extends AppCompatActivity implements MyAdapter.ListItemClickListener{
 
     private ActivityMainBinding binding;
@@ -58,6 +62,8 @@ public class MainActivity2 extends AppCompatActivity implements MyAdapter.ListIt
             public void onClick(View v) {
                 //MainActivity2 에서 MainActivity 로 이동 경로
                 Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+
+                intent.putExtra("code", "0");
                 startActivity(intent);//액티비티 이동
             }
         });
@@ -109,7 +115,12 @@ public class MainActivity2 extends AppCompatActivity implements MyAdapter.ListIt
     @Override
     public void listItemClick(int position) {
 
-        Toast.makeText(this, personList.get(position).getCode() + "\n" +
-                personList.get(position).getMed_name(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity2.this, MainActivity.class);
+
+        //리스트 항목 클릭시 화면 전환과 함께 해당 약품 코드 전송
+
+        intent.putExtra("code", personList.get(position).getCode());
+
+        startActivity(intent);//액티비티 이동
     }
 }

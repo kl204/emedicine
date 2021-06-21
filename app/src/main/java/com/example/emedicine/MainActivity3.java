@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+//-------------------------------카메라 화면(미완성)--------------------------------------
+
 public class MainActivity3 extends AppCompatActivity {
 
     CameraSurfaceView surfaceView;
