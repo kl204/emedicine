@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity{
     String key="neEs%2FUJypuwYcCxOnoD20%2FlCNSWBqldITbxKogLt55ypbQ8EHp5MMNRPcMsyAq7DvkDo9tlqbMGrgWgwXKrgow%3D%3D";
     String data;
     String none =" ";
-    String medid = "none";
+    String medid = null;
     String num = null;
     final String[] a = new String[1];
     final String[] b = new String[1];
@@ -75,14 +75,16 @@ public class MainActivity extends AppCompatActivity{
         num = intent.getExtras().getString("code"); // 데이터 수신 받음
 
 
-        if(num == "0") {
+
+        if(num.equals("0")==true) {
 
             Toast.makeText(this, "화면 전환!", Toast.LENGTH_SHORT).show();
+
         }else{
 
             medid = num;        // 화면 전환으로 넘어온 코드로 알약 조회
 
-            //Toast.makeText(this, medid, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, medid, Toast.LENGTH_SHORT).show();
 
             new Thread(new Runnable() {
 
@@ -102,7 +104,10 @@ public class MainActivity extends AppCompatActivity{
                     });
                 }
             }).start();
+         //   medid = null;
         }
+        //num = "0";
+
 
 
    //---------------------------------------------------------------------------------
@@ -132,7 +137,6 @@ public class MainActivity extends AppCompatActivity{
                 //검색창에서 검색한 약 아이디 넣기
                 text.setText(none);         // 화면 초기화
                 medid = edit.getText().toString();
-                Toast.makeText(getApplicationContext(), "버튼 클릭 됨",Toast.LENGTH_SHORT).show();
                 mOnClick(v);
             }
         }); // 약 검색
@@ -254,6 +258,7 @@ public class MainActivity extends AppCompatActivity{
                             {
                                 xpp.next();
                                 if(!xpp.getText().equals(medid)){
+                                    Toast.makeText(this, "찾는약이 없긴하다", Toast.LENGTH_SHORT).show();
                                     buffer.delete(0,buffer.toString().length());
                                     imView.setImageResource(0);//생성된 이미지 제거
                                     buffer.append("찾는 알약이 없습니다.");
@@ -308,8 +313,6 @@ public class MainActivity extends AppCompatActivity{
                             e_[0] = xpp.getText();
                         }
 
-
-
                         break;
 
                     case XmlPullParser.TEXT:
@@ -328,7 +331,8 @@ public class MainActivity extends AppCompatActivity{
         } catch (Exception e) {
             // TODO Auto-generated catch blocke.printStackTrace();
         }
-        medid = "none";
+
+        medid = null;
         return buffer.toString();//StringBuffer 문자열 객체 반환
 
     }//getXmlData method....

@@ -21,4 +21,5 @@ public interface UserProfileDao {
 
     @Query("SELECT * FROM UserProfile1")
     List<UserProfile1> getAll();
+
 }
