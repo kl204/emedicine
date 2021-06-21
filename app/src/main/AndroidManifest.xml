@@ -18,7 +18,6 @@
         android:theme="@style/Theme.Emedicine"
         tools:replace="android:appComponentFactory"
         tools:targetApi="p">
-        <activity android:name=".MainActivity3"></activity>
         <activity android:name=".login_act">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
