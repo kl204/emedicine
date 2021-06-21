@@ -12,5 +12,4 @@ public class UserProfile1 {
     public String code;
     public String med_name;
     public String ent_name;
-    public String img;
 }

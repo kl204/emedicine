@@ -2,18 +2,26 @@ package com.example.emedicine;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHoder> {
 
-    private List<Person> personList;
-    private  ListItemClickListener listItemClickListener;
+    private final List<Person> personList;
+    private final ListItemClickListener listItemClickListener;
+
 
     public MyAdapter(List<Person> personList, ListItemClickListener listItemClickListener) {
         this.personList = personList;
@@ -35,7 +43,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHoder> {
         myViewHoder.nameText.setText(personList.get(i).getCode());
         myViewHoder.ageText.setText(personList.get(i).getMed_name());
         myViewHoder.codeText.setText(personList.get(i).getEnt_name());
-        myViewHoder.medimg.setImageBitmap(personList.get(i).getImg());
 
     }
 
@@ -47,7 +54,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHoder> {
     public class MyViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView nameText, ageText, codeText;
-        private ImageView medimg;
+
 
         public MyViewHoder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
             super(itemView);
@@ -55,7 +62,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHoder> {
             nameText = itemView.findViewById(R.id.text_code);
             ageText = itemView.findViewById(R.id.text_med_name);
             codeText = itemView.findViewById(R.id.text_ent_name);
-            medimg = itemView.findViewById(R.id.med_img);
             itemView.setOnClickListener(this);
         }
 

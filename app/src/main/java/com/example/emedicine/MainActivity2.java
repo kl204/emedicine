@@ -1,12 +1,16 @@
 package com.example.emedicine;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +19,9 @@ import androidx.room.Room;
 
 import com.example.emedicine.databinding.ActivityMainBinding;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +83,7 @@ public class MainActivity2 extends AppCompatActivity implements MyAdapter.ListIt
         });
 
         if(db != null) {
-            fetchUserProfileList();
+          fetchUserProfileList();
         }
         else{
             Toast.makeText(this, "등록된 약이 없습니다!", Toast.LENGTH_SHORT).show();
@@ -87,14 +94,17 @@ public class MainActivity2 extends AppCompatActivity implements MyAdapter.ListIt
 
     }
 
+
     private void fetchUserProfileList(){
         List<UserProfile1> userProfileList = db.getUserProfileDao().getAll();
         for(UserProfile1 userProfile : userProfileList){
-            personList.add(new Person(userProfile.code, userProfile.med_name,userProfile.ent_name,userProfile.img));
-
+            personList.add(new Person(userProfile.code, userProfile.med_name, userProfile.ent_name));
         }
 
     }
+
+
+
 
     @Override
     public void listItemClick(int position) {

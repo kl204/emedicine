@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity{
 
         db = Room.databaseBuilder(this,UserProfileDatabase.class, "userprofile1").allowMainThreadQueries().build();
 // -------------------------------> 데이터베이스 테이블 이름
-        //fetchUserProfileList();
+       // fetchUserProfileList();
 
         edit = (EditText) findViewById(R.id.edit);
         text = (TextView) findViewById(R.id.result);
@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity{
         userProfile.code = a[0];
         userProfile.med_name = b[0];
         userProfile.ent_name = c[0];
-        userProfile.img = img[0];
         db.getUserProfileDao().insert(userProfile);
         //fetchUserProfileList();
 
@@ -229,7 +228,7 @@ public class MainActivity extends AppCompatActivity{
                             xpp.next();
                             imageUrl = xpp.getText();
                             new DownloadFilesTask().execute(imageUrl);
-                            img[0] = imageUrl;
+
 
                         }
                         else if(tag.equals("itemName")){
@@ -291,7 +290,7 @@ public class MainActivity extends AppCompatActivity{
 
     }//getXmlData method....
 
-    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+    class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... strings) {
             Bitmap bmp = null;
