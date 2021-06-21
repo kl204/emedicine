@@ -2,6 +2,7 @@ package com.example.emedicine;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +10,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,14 +29,20 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 
+import com.example.emedicine.databinding.ActivityMainBinding;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 
 import java.io.InputStreamReader;
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
+    private ActivityMainBinding binding;
+    private UserProfileDatabase db;
 
     ImageView imView;
     String imageUrl ="";
@@ -45,12 +55,24 @@ public class MainActivity extends AppCompatActivity {
     String data;
     String none =" ";
     String medid = "none";
-
+    final String[] a = new String[1];
+    final String[] b = new String[1];
+    final String[] c = new String[1];
+    final String[] d = new String[1];
+    final String[] e_ = new String[1];
+    final String[] img = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        getSupportActionBar().setTitle("알약 검색하기");
+
+        db = Room.databaseBuilder(this,UserProfileDatabase.class, "userprofile1").allowMainThreadQueries().build();
+// -------------------------------> 데이터베이스 테이블 이름
+        //fetchUserProfileList();
 
         edit = (EditText) findViewById(R.id.edit);
         text = (TextView) findViewById(R.id.result);
@@ -58,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         Button btn1 = (Button)findViewById(R.id.button);
         imView = (ImageView)findViewById(R.id.imgV);
         text.setMovementMethod(new ScrollingMovementMethod());
-        Button btn2 = (Button) findViewById(R.id.mtpg);
+        Button btn2 = (Button)findViewById(R.id.button1);
+        Button btn10 = (Button)findViewById(R.id.button2);
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "버튼 클릭 됨",Toast.LENGTH_SHORT).show();
                 mOnClick(v);
             }
-        });
+        }); // 약 검색
 
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,16 +103,51 @@ public class MainActivity extends AppCompatActivity {
 
                 startActivity(intent);//액티비티 이동
             }
-        });
+        }); // 마이페이지 이동
+
+        btn10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(db != null) {
+                    addUserProfile(v);
+
+                    Toast.makeText(MainActivity.this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }); // 내 알약 저장
+
+    }
+    private void fetchUserProfileList(){
+        List<UserProfile1> userProfileList = db.getUserProfileDao().getAll();
+        String userListText = "사용자 목록";
+        for(UserProfile1 userProfile : userProfileList){
+            userListText += "\n" + userProfile.code + "\n" + userProfile.med_name + "\n" + userProfile.ent_name;
+        }
+        Toast.makeText(this, "here!", Toast.LENGTH_SHORT).show();
+        binding.result.setText(userListText);
+    }
+
+
+    public void addUserProfile(View view){
+        UserProfile1 userProfile = new UserProfile1();
+        userProfile.code = a[0];
+        userProfile.med_name = b[0];
+        userProfile.ent_name = c[0];
+        userProfile.img = img[0];
+        db.getUserProfileDao().insert(userProfile);
+        //fetchUserProfileList();
 
     }
 
+
+
     public String stripHtml(String html) {
         return Html.fromHtml(html).toString();
+
         }
 
 
-    //Button을 클릭했을 때 자동으로 호출되는 callback method....
     public void mOnClick(View v){
         switch( v.getId() ){
             case R.id.button:
@@ -116,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }//mOnClick method..
 
-    //XmlPullParser를 이용하여 Naver 에서 제공하는 OpenAPI XML 파일 파싱하기(parsing)
+
     String getXmlData(){
 
         StringBuffer buffer=new StringBuffer();
@@ -164,12 +222,14 @@ public class MainActivity extends AppCompatActivity {
                                     buffer.append(xpp.getText());
                                     buffer.append("\n");
                                     text.setText(buffer);
+                                    a[0] = xpp.getText();
                                 }
                             }
                         else if(tag.equals("itemImage")){ //알약 이미지
                             xpp.next();
                             imageUrl = xpp.getText();
                             new DownloadFilesTask().execute(imageUrl);
+                            img[0] = imageUrl;
 
                         }
                         else if(tag.equals("itemName")){
@@ -178,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
                             buffer.append(stripHtml(stripHtml(xpp.getText())));
                             buffer.append("\n");
                             text.setText(buffer);
+                            b[0] = xpp.getText();
                         }
                         else if(tag.equals("entpName")){
                             buffer.append("제조사 : ");
@@ -185,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             buffer.append(stripHtml(stripHtml(xpp.getText())));
                             buffer.append("\n");
                             text.setText(buffer);
+                            c[0] = xpp.getText();
                         }
 
                         else if(tag.equals("efcyQesitm")){
@@ -193,6 +255,7 @@ public class MainActivity extends AppCompatActivity {
                             buffer.append(stripHtml(xpp.getText()));
                             buffer.append("\n");
                             text.setText(buffer);
+                            d[0] = xpp.getText();
                         }
                         else if(tag.equals("useMethodQesitm")){
                             buffer.append("약 복용법 : ");
@@ -200,14 +263,9 @@ public class MainActivity extends AppCompatActivity {
                             buffer.append(stripHtml(xpp.getText()));
                             buffer.append("\n");
                             text.setText(buffer);
+                            e_[0] = xpp.getText();
                         }
-                        else if(tag.equals("seQesitm")){
-                            buffer.append("약 부작용 : ");
-                            xpp.next();
-                            buffer.append(stripHtml(xpp.getText()));
-                            buffer.append("\n");
-                            text.setText(buffer);
-                        }
+
 
 
                         break;
@@ -228,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             // TODO Auto-generated catch blocke.printStackTrace();
         }
-        medid = "none";
+        //medid = "none";
         return buffer.toString();//StringBuffer 문자열 객체 반환
 
     }//getXmlData method....
@@ -260,5 +318,12 @@ public class MainActivity extends AppCompatActivity {
             // doInBackground 에서 받아온 total 값 사용 장소
             imView.setImageBitmap(result);
         }
+    }
+
+
+@Override
+protected void onDestroy() {
+
+    super.onDestroy();
     }
 }

@@ -1,32 +1,49 @@
 package com.example.emedicine;
 
+import android.graphics.Bitmap;
+
 public class Person {
 
-    private String name;
-    private int age;
+    private String code;
+    private String med_name;
+    private String ent_name;
+    private Bitmap img;
 
-    public  Person(){
+
+    public Person(String code, String med_name, String ent_name, String img){
 
     }
 
-    public Person(String name, int age){
-        this.name = name;
-        this.age = age;
+    public Person(String code, String med_name, String ent_name, Bitmap img){
+        this.code = code;
+        this.med_name = med_name;
+        this.ent_name = ent_name;
+        this.img = img;
+
     }
 
-    public String getName(){
-        return name;
+    public String getCode(){
+        return code;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setCode(String code){
+        this.code = code;
     }
 
-    public int getAge(){
-        return age;
+    public String getMed_name(){
+        return med_name;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+    public void setMed_name(){this.med_name = med_name;}
+
+    public String getEnt_name() {return ent_name;}
+
+    public void setEnt_name(String ent_name) {this.ent_name = ent_name; }
+
+    public Bitmap getImg() {return img;}
+
+    public void setImg(Bitmap img) {this.img = img;}
+
+
+
 }

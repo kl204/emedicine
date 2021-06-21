@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,8 +32,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHoder> {
     @Override
     public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull MyAdapter.MyViewHoder myViewHoder, int i) {
 
-        myViewHoder.nameText.setText(personList.get(i).getName());
-        myViewHoder.ageText.setText(String.valueOf(personList.get(i).getAge()));
+        myViewHoder.nameText.setText(personList.get(i).getCode());
+        myViewHoder.ageText.setText(personList.get(i).getMed_name());
+        myViewHoder.codeText.setText(personList.get(i).getEnt_name());
+        myViewHoder.medimg.setImageBitmap(personList.get(i).getImg());
+
     }
 
     @Override
@@ -42,13 +46,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHoder> {
 
     public class MyViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView nameText, ageText;
+        private TextView nameText, ageText, codeText;
+        private ImageView medimg;
 
         public MyViewHoder(@NonNull @org.jetbrains.annotations.NotNull View itemView) {
             super(itemView);
 
-            nameText = itemView.findViewById(R.id.text_name);
-            ageText = itemView.findViewById(R.id.text_age);
+            nameText = itemView.findViewById(R.id.text_code);
+            ageText = itemView.findViewById(R.id.text_med_name);
+            codeText = itemView.findViewById(R.id.text_ent_name);
+            medimg = itemView.findViewById(R.id.med_img);
             itemView.setOnClickListener(this);
         }
 
