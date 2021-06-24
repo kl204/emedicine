@@ -258,7 +258,6 @@ public class MainActivity extends AppCompatActivity{
                             {
                                 xpp.next();
                                 if(!xpp.getText().equals(medid)){
-                                    Toast.makeText(this, "찾는약이 없긴하다", Toast.LENGTH_SHORT).show();
                                     buffer.delete(0,buffer.toString().length());
                                     imView.setImageResource(0);//생성된 이미지 제거
                                     buffer.append("찾는 알약이 없습니다.");

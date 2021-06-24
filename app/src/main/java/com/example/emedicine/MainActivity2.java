@@ -72,7 +72,7 @@ public class MainActivity2 extends AppCompatActivity implements MyAdapter.ListIt
             @Override
             public void onClick(View v) {
                 //MainActivity2 에서 MainActivity 로 이동 경로
-                Intent intent = new Intent(MainActivity2.this, MainActivity3.class);
+                Intent intent = new Intent(MainActivity2.this, CameraActivity.class);
 
                 startActivity(intent);//액티비티 이동
             }
